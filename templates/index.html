@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Flight Sim Status </title>
+</head>
+<body>
+    <div>
+        <h1> Flight Radar </h1>
+    </div>
+    <div>
+        <h1>Vols autour de la position</h1>
+        <table border="1" >
+            <tr>
+                <th>Code avion</th>
+                <th>Immatriculation</th>
+                <th>Altitude</th>
+                <th>Callsign</th>
+                <th>Origine</th>
+                <th>Destination</th>
+            </tr>
+            {% for f in flights %}
+            <tr>
+                <td>{{ f.aircraft_code }}</td>
+                <td>{{ f.registration }}</td>
+                <td>{{ f.altitude }}</td>
+                <td>{{ f.callsign }}</td>
+                <td>{{ f.origin }}</td>
+                <td>{{ f.destination }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>    
+</body>
+</html>
