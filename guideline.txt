@@ -1,0 +1,58 @@
+DATA BASE 
+- checks out flight above a position and collect data : 
+    - number of flight per day / month / year 
+    - number of companies --> "most popular companies" 
+    - plane resgistration --> "most popular aicraft"
+    - origin & destination 
+    - aircraft model 
+    - routes
+    - status
+
+    
+WEB SERVER 
+- 
+
+LED PANNEL 
+- 
+
+
+
+-------------
+from FlightRadar24 import FlightRadar24API
+fr_api = FlightRadar24API()
+# coordinate 
+# home : 48.7803222, 2.3092621
+# CDG : 49.0097, 2.5479
+
+
+def plane(latitude =48.7803222 , longitude = 2.3092621, radius = 7000): 
+    bounds = fr_api.get_bounds_by_point(latitude, longitude, radius)  # 10 km autour de CDG
+
+    flights = fr_api.get_flights(bounds = bounds)
+    
+    p = []
+    for flight in flights:
+        
+        p.append({
+            'aircraft_code': flight.aircraft_code,
+            'registration': flight.registration,
+            'altitude': flight.altitude,
+            'callsign': flight.callsign,
+            'origin': flight.origin_airport_iata,
+            'destination': flight.destination_airport_iata,
+        })
+    
+    return p
+
+
+
+if __name__=="__main__":
+    bounds = fr_api.get_bounds_by_point(48.7803222, 2.3092621, 3000)  # 10 km autour de CDG
+
+    flights = fr_api.get_flights(bounds = bounds)
+    
+    for flight in flights:
+        
+        print(f"{flight.aircraft_code} | {flight.registration} |{flight.altitude}| {flight.callsign} | {flight.origin_airport_iata} → {flight.destination_airport_iata} ")
+
+
