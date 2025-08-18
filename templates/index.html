@@ -7,32 +7,10 @@
     <title>Flight Sim Status </title>
 </head>
 <body>
-    <div>
-        <h1> Flight Radar </h1>
+    <div class="rectangle">
+    Rectangle 2D
     </div>
-    <div>
-        <h1>Vols autour de la position</h1>
-        <table>
-            <tr>
-                <th>Code avion</th>
-                <th>Immatriculation</th>
-                <th>Altitude</th>
-                <th>Callsign</th>
-                <th>Origine</th>
-                <th>Destination</th>
-            </tr>
-            {% for f in flights %}
-            <tr>
-                <td>{{ f.aircraft_code }}</td>
-                <td>{{ f.registration }}</td>
-                <td>{{ f.altitude }}</td>
-                <td>{{ f.callsign }}</td>
-                <td>{{ f.origin }}</td>
-                <td>{{ f.destination }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>    
+
+
 </body>
 </html>

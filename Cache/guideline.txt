@@ -1,0 +1,148 @@
+DATA BASE 
+- checks out flight above a position and collect data : 
+    - number of flight per day / month / year 
+    - number of companies --> "most popular companies" 
+    - plane resgistration --> "most popular aicraft"
+    - origin & destination 
+    - aircraft model 
+    - routes
+    - status
+
+    
+WEB SERVER 
+- 
+
+LED PANNEL 
+- 
+
+
+
+-------------
+from FlightRadar24 import FlightRadar24API
+fr_api = FlightRadar24API()
+# coordinate 
+# home : 48.7803222, 2.3092621
+# CDG : 49.0097, 2.5479
+
+
+def plane(latitude =48.7803222 , longitude = 2.3092621, radius = 7000): 
+    bounds = fr_api.get_bounds_by_point(latitude, longitude, radius)  # 10 km autour de CDG
+
+    flights = fr_api.get_flights(bounds = bounds)
+    
+    p = []
+    for flight in flights:
+        
+        p.append({
+            'aircraft_code': flight.aircraft_code,
+            'registration': flight.registration,
+            'altitude': flight.altitude,
+            'callsign': flight.callsign,
+            'origin': flight.origin_airport_iata,
+            'destination': flight.destination_airport_iata,
+        })
+    
+    return p
+
+
+
+if __name__=="__main__":
+    bounds = fr_api.get_bounds_by_point(48.7803222, 2.3092621, 3000)  # 10 km autour de CDG
+
+    flights = fr_api.get_flights(bounds = bounds)
+    
+    for flight in flights:
+        
+        print(f"{flight.aircraft_code} | {flight.registration} |{flight.altitude}| {flight.callsign} | {flight.origin_airport_iata} → {flight.destination_airport_iata} ")
+
+
+
+
+
+
+------
+import time
+from datetime import datetime
+from FlightRadar24 import FlightRadar24API
+import mysql.connector
+
+# === Configuration de la position ===
+POSITION_ID = "HOME"
+POSITION_NAME = "Maison"
+POSITION_LAT = 48.7803222
+POSITION_LON = 2.3092621
+POSITION_RADIUS = 5000  # en mètres
+
+# === Connexion à la base de données ===
+conn = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="2572",
+    database="fly_radar"
+)
+cursor = conn.cursor()
+
+# === Initialisation de l'API FlightRadar24 ===
+fr_api = FlightRadar24API()
+
+# === Création de la position "HOME" si elle n'existe pas ===
+cursor.execute("SELECT 1 FROM Position_ WHERE Id_position = %s", (POSITION_ID,))
+if cursor.fetchone() is None:
+    cursor.execute("""
+        INSERT INTO Position_ (Id_position, Name_position, Longitude, Latitude, Radius)
+        VALUES (%s, %s, %s, %s, %s)
+    """, (POSITION_ID, POSITION_NAME, str(POSITION_LON), str(POSITION_LAT), str(POSITION_RADIUS)))
+    conn.commit()
+
+# === Fonction principale ===
+def collect_flights():
+    bounds = fr_api.get_bounds_by_point(POSITION_LAT, POSITION_LON, POSITION_RADIUS)
+    flights = fr_api.get_flights(bounds=bounds)
+    print(f"\n--- {len(flights)} vols détectés à {datetime.utcnow()} UTC ---")
+
+    for flight in flights:
+        registration = flight.registration or "UNKNOWN"
+        aircraft_code = flight.aircraft_code or "UNKNOWN"
+        callsign = flight.callsign or "UNKNOWN"
+        origin = flight.origin_airport_iata or "UNK"
+        destination = flight.destination_airport_iata or "UNK"
+        altitude = flight.altitude or 0
+        speed = flight.ground_speed or 0 
+        now = datetime.utcnow()
+        flight_id = f"{registration}_{now.strftime('%Y%m%d%H%M%S')}"
+        over_id = f"OVER_{flight_id}"
+
+        # === Ajout avion ===
+        cursor.execute("SELECT 1 FROM Plane WHERE registration = %s", (registration,))
+        if cursor.fetchone() is None:
+            cursor.execute("""
+                INSERT INTO Plane (registration, aircraft_code, age, airline)
+                VALUES (%s, %s, %s, %s)
+            """, (registration, aircraft_code, "unknown", "unknown"))
+
+        # === Ajout vol ===
+        cursor.execute("""
+            INSERT INTO Flight (id, callsign, origin_airport_iata, destination_airport_iata, status, plane_registration)
+            VALUES (%s, %s, %s, %s, %s, %s)
+        """, (flight_id, callsign, origin, destination, "en_vol", registration))
+
+        # === Ajout survol ===
+        cursor.execute("""
+            INSERT INTO Flights_over_position (id_overflight, flight_id, position_id, time_, altitude, speed)
+            VALUES (%s, %s, %s, %s, %s, %s)
+        """, (over_id, flight_id, POSITION_ID, now, altitude, speed))
+
+        conn.commit()
+        print(f"[+] {registration} | {callsign} | {origin} → {destination}")
+
+# === Boucle automatique toutes les 60 secondes ===
+if __name__ == "__main__":
+    try:
+        while True:
+            collect_flights()
+            time.sleep(60)
+    except KeyboardInterrupt:
+        print("Arrêt du suivi des vols.")
+    finally:
+        cursor.close()
+        conn.close()

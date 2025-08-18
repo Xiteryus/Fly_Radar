@@ -1,0 +1,89 @@
+
+
+:root{
+  --size: 260px;   /* largeur/hauteur du cube */
+  --depth: 160px;  /* profondeur (Z) */
+  --face: #1f2937; /* couleur faces */
+  --edge: #111827; /* bordures */
+}
+
+*{box-sizing:border-box}
+
+body{
+  min-height:100vh;
+  margin:0;
+  display:grid;
+  place-items:center;
+  background: radial-gradient(circle at 20% 20%, #0b1020, #05060c);
+  color:#e5e7eb;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+/* Scène 3D */
+#box{
+  perspective: 1200px;        /* profondeur de la perspective */
+  perspective-origin: 50% 40%;
+}
+
+/* Le cube (boîte) */
+#box2.cube{
+  position: relative;
+  width: var(--size);
+  height: var(--size);
+  transform-style: preserve-3d;
+  transform: rotateX(-18deg) rotateY(24deg);
+  transition: transform .8s ease;
+}
+
+/* Faces */
+.face{
+  position:absolute;
+  width: var(--size);
+  height: var(--size);
+  background: linear-gradient(180deg, #1f2937, #0f172a);
+  border: 2px solid var(--edge);
+  box-shadow: inset 0 0 18px rgba(0,0,0,.45);
+  display: grid;              /* pour centrer facilement du contenu */
+  place-items: center;
+  padding: 18px;
+}
+
+/* Face avant : on autorise le texte long */
+.face.front{
+  background: linear-gradient(180deg, #233247, #0f1a2a);
+  text-align:center;
+  line-height:1.35;
+  border-color:#0b1220;
+}
+
+/* Dimensions de profondeur (Z) = moitié de --depth */
+:root{ --tz: calc(var(--depth) / 2); }
+
+/* Placement dans l'espace 3D */
+.front  { transform: translateZ(var(--tz)); }
+.back   { transform: rotateY(180deg) translateZ(var(--tz)); }
+
+.right  { transform: rotateY(90deg)  translateZ(var(--tz)); width: var(--depth); height: var(--size); left: calc((var(--size) - var(--depth)) / 2); }
+.left   { transform: rotateY(-90deg) translateZ(var(--tz)); width: var(--depth); height: var(--size); left: calc((var(--size) - var(--depth)) / 2); }
+
+.top    { transform: rotateX(90deg)  translateZ(var(--tz)); width: var(--size); height: var(--depth); top: calc((var(--size) - var(--depth)) / 2); }
+.bottom { transform: rotateX(-90deg) translateZ(var(--tz)); width: var(--size); height: var(--depth); top: calc((var(--size) - var(--depth)) / 2); }
+
+/* Effet interactif : pivoter sur hover (optionnel) */
+#box:hover .cube{
+  transform: rotateX(-10deg) rotateY(40deg);
+}
+
+/* Un léger reflet pour le volume */
+.face::after{
+  content:"";
+  position:absolute; inset:0;
+  background: linear-gradient(120deg, rgba(255,255,255,.08), transparent 40%);
+  mix-blend-mode: screen;
+  pointer-events:none;
+  border-radius: 6px;
+}
+
+/* Style du texte de la face avant */
+.front h2{ margin:.2rem 0 .4rem; font-size:1.2rem }
+.front p{ margin:0; font-size:.95rem; opacity:.9 }
