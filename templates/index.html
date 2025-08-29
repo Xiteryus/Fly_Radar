@@ -8,9 +8,18 @@
 </head>
 <body>
     <div class="rectangle">
-    Rectangle 2D
+        <div id="date">{{ date }}</div>
+        <div id="clock">{{ heure }}</div>
+        <div id="weather">{{weather.ville}}</div>
+        <div id="temperature">{{weather.temp}}°C</div>
+        <div id="vent">{{weather.vent}}km/h</div>
     </div>
+
+
+
+<script src="{{ url_for('static', filename='js/clock.js') }}"></script>
 
 
 </body>
 </html>
+

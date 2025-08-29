@@ -21,7 +21,7 @@ def get_weather(lat, lon):
                 "temp": data["main"]["temp"],
                 "meteo": data["weather"][0]["description"],
                 "humidite": data["main"]["humidity"],
-                "vent": data["wind"]["speed"]
+                "vent": round(data["wind"]["speed"] * 3.6, 1)
             }
             return weather
         else:
@@ -38,7 +38,7 @@ if __name__ == "__main__":
     meteo = get_weather(latitude, longitude)
 
     if meteo:
-        print(f"Météo à {meteo['ville']} : {meteo['meteo']} 🌦️")
+        print(f"Météo à {meteo['ville']} : {meteo['meteo']} ")
         print(f"Température : {meteo['temp']}°C")
         print(f"Humidité : {meteo['humidite']}%")
         print(f"Vent : {meteo['vent']} m/s")

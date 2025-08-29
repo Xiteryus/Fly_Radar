@@ -3,16 +3,43 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 500vh;
+  height: 100vh; 
+  margin: 0;     
 }
 
 .rectangle {
-  width: 300px;   /* largeur */
-  height: 180px;  /* hauteur */
+  width: 300px;
+  height: 180px;
   border: 2px solid black;
-  background: white;
   display: flex;
+  flex-direction: column;
+  position: relative; /* permet de placer la date */
   justify-content: center;
   align-items: center;
+  font-family: monospace;
+    }
+#clock {
+  font-size: 48px;
   font-weight: bold;
+  text-align: center;
+}
+#date {
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  font-size: 18px;
+}
+
+#temperature{
+  position: absolute;
+  bottom: 8px;
+  left: 12px;
+  font-size: 18px;
+}
+
+#vent{
+  position: absolute;
+  bottom: 8px;
+  right: 12px;
+  font-size: 18px;
 }
