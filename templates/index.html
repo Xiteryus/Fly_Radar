@@ -15,6 +15,19 @@
         <div id="vent">{{weather.vent}}km/h</div>
     </div>
 
+    <div></div>
+
+    <div class="rectangle">
+        {% if detectplane %}
+        Avion détecté : {{ flightinfo['aircraft_code'] }} <br>
+        Altitude : {{ flightinfo['altitude'] }} m<br>
+        Immatriculation : {{ flightinfo['registration'] }} <br>
+        Callsign : {{ flightinfo['callsign'] }} <br>
+        Trajet : {{ flightinfo['origin'] }} -> {{ flightinfo['destination'] }}        
+        {% else  %}
+            Aucun avion
+        {% endif %}
+    </div>
 
 
 <script src="{{ url_for('static', filename='js/clock.js') }}"></script>
