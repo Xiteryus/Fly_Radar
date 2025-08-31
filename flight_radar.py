@@ -1,5 +1,11 @@
+import os
+from dotenv import load_dotenv
 from localisation import get_localisation
 from FlightRadar24 import FlightRadar24API
+
+load_dotenv()
+lat = float(os.getenv("LATITUDE"))
+long = float(os.getenv("LONGITUDE"))
 
 
 fr_api = FlightRadar24API()
@@ -8,12 +14,8 @@ if loc:
     print(f"Latitude: {loc[0]}, Longitude: {loc[1]}")
 
 
-# coordinate 
-# home : 48.7803222, 2.3092621
-# CDG : 49.0097, 2.5479
 
-
-def plane(latitude =49.0097 , longitude = 2.5479, radius = 10000): 
+def plane(latitude = lat , longitude = long , radius = 10000): 
     bounds = fr_api.get_bounds_by_point(latitude, longitude, radius)  # 10 km autour de CDG
 
     flights = fr_api.get_flights(bounds = bounds)
@@ -32,7 +34,7 @@ def plane(latitude =49.0097 , longitude = 2.5479, radius = 10000):
     
     return p
 
-def detectplane(latitude =49.0097 , longitude = 2.5479, radius = 10000):
+def detectplane(latitude = lat , longitude = long , radius = 10000):
     bounds = fr_api.get_bounds_by_point(latitude, longitude, radius)  # 10 km autour de CDG
 
     flights = fr_api.get_flights(bounds = bounds)
@@ -44,7 +46,7 @@ def detectplane(latitude =49.0097 , longitude = 2.5479, radius = 10000):
     
     return len(p)>0
 
-def choseplane(latitude =49.0097 , longitude = 2.5479, radius = 10000):
+def choseplane(latitude = lat , longitude = long, radius = 10000):
     bounds = fr_api.get_bounds_by_point(latitude, longitude, radius)  # 10 km autour de CDG
 
     flights = fr_api.get_flights(bounds = bounds)
@@ -68,7 +70,7 @@ def choseplane(latitude =49.0097 , longitude = 2.5479, radius = 10000):
 
     return id
 
-def flightinfo(id, latitude =49.0097 , longitude = 2.5479, radius = 10000):
+def flightinfo(id, latitude = lat , longitude = long, radius = 10000):
     bounds = fr_api.get_bounds_by_point(latitude, longitude, radius)
     flights = fr_api.get_flights(bounds=bounds)
 

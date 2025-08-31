@@ -61,8 +61,20 @@ cd Fly_Radar
 2. Installer les dépendances :
 
 ```bash
-pip install flask
+pip install flask, python-dotenv
 ```
+
+3. Configurer la base de données et variables d'environnement
+
+Dans la racine du projet, créez un fichier .env comme suit :
+
+```
+LATITUDE=votrelatitude
+LONGITUDE=votrelongitude
+```
+
+Vous pouvez récupérer vos coordonnées GPS sur ce site : https://www.coordonnees-gps.fr/
+
 
 3. Configurer votre clé API OpenWeatherMap dans `weather_module.py` :
 

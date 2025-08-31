@@ -1,9 +1,14 @@
+import os
+from dotenv import load_dotenv
 from flask import Flask, render_template, redirect, url_for
 from flight_radar import *  # importe ta fonction
 from datetime import datetime
 from weather import get_weather
 
-latitude, longitude = 48.7803222, 2.3092621  
+
+load_dotenv()
+lat = float(os.getenv("LATITUDE"))
+long = float(os.getenv("LONGITUDE"))
 
 
 app = Flask(__name__)
@@ -13,7 +18,7 @@ def home():
     data = plane()
     heure = datetime.now().strftime("%H:%M:%S")
     date = datetime.now().strftime("%d/%m/%Y")
-    weather = get_weather(latitude,longitude)
+    weather = get_weather(lat,long)
     plane_detected  = detectplane()
     best_plane  = choseplane()
     info = flightinfo(best_plane)
