@@ -71,10 +71,11 @@ Dans la racine du projet, créez un fichier .env comme suit :
 ```
 LATITUDE=votrelatitude
 LONGITUDE=votrelongitude
+API_WEATHER_KEY=votreApiKey
 ```
 
 Vous pouvez récupérer vos coordonnées GPS sur ce site : https://www.coordonnees-gps.fr/
-
+Vous pouvez récupérer votre API Key via https://api.openweathermap.org/data/2.5/weather
 
 3. Configurer votre clé API OpenWeatherMap dans `weather_module.py` :
 
