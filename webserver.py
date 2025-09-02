@@ -4,12 +4,21 @@ from flask import Flask, render_template, redirect, url_for
 from flight_radar import *  # importe ta fonction
 from datetime import datetime
 from weather import get_weather
+from localisation import get_localisation
 
-
+#----------------------------------------------------------------------
+# .env
 load_dotenv()
 lat = float(os.getenv("LATITUDE"))
 long = float(os.getenv("LONGITUDE"))
+#get localisation avec l'IP 
+loc = get_localisation()
+if loc:
+    print(f"Latitude: {loc[0]}, Longitude: {loc[1]}")
+lat1= loc[0]
+long1= loc[1]
 
+#----------------------------------------------------------------------
 
 app = Flask(__name__)
 
@@ -18,7 +27,7 @@ def home():
     data = plane()
     heure = datetime.now().strftime("%H:%M:%S")
     date = datetime.now().strftime("%d/%m/%Y")
-    weather = get_weather(lat,long)
+    weather = get_weather(lat1,long1)
     plane_detected  = detectplane()
     best_plane  = choseplane()
     info = flightinfo(best_plane)
