@@ -1,11 +1,14 @@
 body {
   background: #fff;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column; /* empile verticalement */
+  justify-content: center; /* centre verticalement */
+  align-items: center; /* centre horizontalement */
+  gap: 20px; /* espace entre les rectangles */
   height: 100vh; 
   margin: 0;     
 }
+
 
 .rectangle {
   width: 300px;
@@ -18,26 +21,26 @@ body {
   align-items: center;
   font-family: monospace;
     }
-#clock {
+.clock {
   font-size: 48px;
   font-weight: bold;
   text-align: center;
 }
-#date {
+.date {
   position: absolute;
   top: 8px;
   left: 12px;
   font-size: 18px;
 }
 
-#temperature{
+.temperature{
   position: absolute;
   bottom: 8px;
   left: 12px;
   font-size: 18px;
 }
 
-#vent{
+.vent{
   position: absolute;
   bottom: 8px;
   right: 12px;

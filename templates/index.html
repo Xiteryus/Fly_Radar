@@ -7,16 +7,15 @@
     <title>Flight Sim Status </title>
 </head>
 <body>
+    Page d'accueil 
     <div class="rectangle">
-        <div id="date">{{ date }}</div>
-        <div id="clock">{{ heure }}</div>
-        <div id="weather">{{weather.ville}}</div>
-        <div id="temperature">{{weather.temp}}°C</div>
-        <div id="vent">{{weather.vent}}km/h</div>
+        <div class="date">{{ date }}</div>
+        <div class="clock">{{ heure }}</div>
+        <div class="weather">{{weather.ville}}</div>
+        <div class="temperature">{{weather.temp}}°C</div>
+        <div class="vent">{{weather.vent}}km/h</div>
     </div>
-
-    <div></div>
-
+    Page de détection (radar)
     <div class="rectangle">
         {% if detectplane %}
         Avion détecté : {{ flightinfo['aircraft_code'] }} <br>
@@ -27,6 +26,25 @@
         {% else  %}
             Aucun avion
         {% endif %}
+    </div>
+
+    <div></div>
+    Page finale 
+    <div class="rectangle">
+        {% if detectplane %}
+            Avion détecté : {{ flightinfo['aircraft_code'] }} <br>
+            Altitude : {{ flightinfo['altitude'] }} m<br>
+            Immatriculation : {{ flightinfo['registration'] }} <br>
+            Callsign : {{ flightinfo['callsign'] }} <br>
+            Trajet : {{ flightinfo['origin'] }} -> {{ flightinfo['destination'] }}        
+        {% else  %}
+            <div class="date">{{ date }}</div>
+            <div class="clock">{{ heure }}</div>
+            <div class="weather">{{weather.ville}}</div>
+            <div class="temperature">{{weather.temp}}°C</div>
+            <div class="vent">{{weather.vent}}km/h</div>
+        {% endif %}
+
     </div>
 
 

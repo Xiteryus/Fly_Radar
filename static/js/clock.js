@@ -8,10 +8,22 @@ function updateClock() {
   const mo = String(now.getMonth() + 1).padStart(2, "0");
   const y = now.getFullYear();
 
-  document.getElementById("clock").textContent = `${h}:${m}:${s}`;
-  document.getElementById("date").textContent = `${d}/${mo}/${y}`;
+  // Met à jour toutes les horloges
+  document.querySelectorAll(".clock").forEach(el => {
+    el.textContent = `${h}:${m}:${s}`;
+  });
+
+  // Met à jour toutes les dates
+  document.querySelectorAll(".date").forEach(el => {
+    el.textContent = `${d}/${mo}/${y}`;
+  });
 }
 
 // mise à jour toutes les secondes
 updateClock();
 setInterval(updateClock, 1000);
+
+
+  setInterval(() => {
+    window.location.reload();
+  }, 30000);
