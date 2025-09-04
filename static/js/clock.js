@@ -23,7 +23,7 @@ function updateClock() {
 updateClock();
 setInterval(updateClock, 1000);
 
-
-  setInterval(() => {
-    window.location.reload();
-  }, 30000);
+// update la page toutes les 30s
+setInterval(() => {
+  window.location.reload();
+}, 30000);

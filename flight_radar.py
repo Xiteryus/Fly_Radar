@@ -11,13 +11,12 @@ fr_api = FlightRadar24API()
 loc = get_localisation()
 if loc:
     print(f"Latitude: {loc[0]}, Longitude: {loc[1]}")
-
 lat1= loc[0]
 long1= loc[1]
 
 
 def plane(latitude = lat1 , longitude = long1 , radius = 5000): 
-    bounds = fr_api.get_bounds_by_point(latitude, longitude, radius)  # 10 km autour de CDG
+    bounds = fr_api.get_bounds_by_point(latitude, longitude, radius)  
 
     flights = fr_api.get_flights(bounds = bounds)
     
@@ -36,7 +35,7 @@ def plane(latitude = lat1 , longitude = long1 , radius = 5000):
     return p
 
 def detectplane(latitude = lat1 , longitude = long1 , radius = 5000):
-    bounds = fr_api.get_bounds_by_point(latitude, longitude, radius)  # 10 km autour de CDG
+    bounds = fr_api.get_bounds_by_point(latitude, longitude, radius) 
 
     flights = fr_api.get_flights(bounds = bounds)
     p =[]
@@ -48,7 +47,7 @@ def detectplane(latitude = lat1 , longitude = long1 , radius = 5000):
     return len(p)>0
 
 def choseplane(latitude = lat1 , longitude = long1, radius = 5000):
-    bounds = fr_api.get_bounds_by_point(latitude, longitude, radius)  # 10 km autour de CDG
+    bounds = fr_api.get_bounds_by_point(latitude, longitude, radius)  
 
     flights = fr_api.get_flights(bounds = bounds)
 
