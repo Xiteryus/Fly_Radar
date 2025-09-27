@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 from flask import Flask, render_template, redirect, url_for
-from flight_radar import *  # importe ta fonction
+from flight_radar import *  
 from datetime import datetime
 from weather import get_weather
 from localisation import get_localisation
