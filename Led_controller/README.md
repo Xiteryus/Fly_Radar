@@ -9,3 +9,7 @@ Check if audio module is gone
 ```
 lsmod | grep snd
 ```
+Slown down the GPIO when launching the code to avoid parasite
+```
+--led-slowdown-gpio=2
+```

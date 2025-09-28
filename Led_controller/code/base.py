@@ -1,4 +1,4 @@
-from samplebase import SampleBase
+from Led_controller.code.samplebase import SampleBase
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 
 class LEDMatrixBase(SampleBase):
