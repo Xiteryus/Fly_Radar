@@ -13,3 +13,7 @@ Slown down the GPIO when launching the code to avoid parasite
 ```
 --led-slowdown-gpio=2
 ```
+A chaque exe
+```
+sudo -E 
+```
